@@ -102,8 +102,8 @@
 // }).mount('#app');
 
 import {createApp} from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
-let delProduct=[]
-let productModal=[]
+let delProduct=null
+let productModal=null
 const app=createApp({
 data(){
 return{
@@ -138,11 +138,11 @@ window.location="login.html"
  }
  ,updateProduct(){
   let http="post"
-  let web=`${url}/api/${path}/admin/product`
+  let web=`${this.url}/api/${this.path}/admin/product`
   //4.第116行data裡的isNew原本就是false，然後!this.isNew不就負負得正，所以是true，所以http=應該是"post"才對
   if(!this.isNew){
     http="put"
-    web=`${url}/api/${path}/admin/product/${this.tempProduct.id}`
+    web=`${this.url}/api/${this.path}/admin/product/${this.tempProduct.id}`
   }
   //1.為何不是{data:this.tempProduct.id}或是{data:this.tempProduct.imagesUrl},另外為何要加{data:this.tempProduct}?
   axios[http](web,{data:this.tempProduct}).then((res)=>{
@@ -154,7 +154,7 @@ window.location="login.html"
   })
  }
  ,delProduct(){
-  axios.delete(`${url}/api/${path}/admin/product/${this.tempProduct.id}`).then((res)=>{
+  axios.delete(`${this.url}/api/${this.path}/admin/product/${this.tempProduct.id}`).then((res)=>{
     console.log(res)
     delProduct.hide()
     this.getProduct()
