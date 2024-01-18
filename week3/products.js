@@ -102,7 +102,7 @@
 // }).mount('#app');
 
 import {createApp} from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
-let delProduct=null
+let delProduct=null    //5.let delProduct=[]這樣寫法可以嗎?
 let productModal=null
 const app=createApp({
 data(){
@@ -117,6 +117,21 @@ return{
 
 }
 },
+mounted(){ //元件週期，token可以進入到cookie紀錄裡，然後也可以取出cookie紀錄
+  const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)hasVueToken\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1",
+    );    
+   axios.defaults.headers.common.Authorization = token;
+   this.checkAdmin()
+   delProduct=new bootstrap.Modal(document.getElementById("delProduct"),{
+    keyboard:false
+   })
+   productModal=new bootstrap.Modal(document.getElementById("productModal"),{
+    keyboard:false
+   })
+}
+,
 methods:{
  checkAdmin(){
   axios.post(`${this.url}/api/user/check`).then((res)=>{//驗證產品如果成功就會進入getProduct產品訂購畫面，如果驗證不成功跳回原來登入畫面
@@ -162,7 +177,7 @@ window.location="login.html"
  },
  openModal(isNew,item){
   if(isNew=="new"){
-    //2.這樣寫 this.tempProduct.push("")為何不行?
+    //2.這樣寫 this.tempProduct.imagesUrl.push("")為何不行?
     //3.為何第162和163 isNew前面沒有加this?
 
     this.tempProduct={
@@ -187,20 +202,6 @@ window.location="login.html"
  }
 
 },
-mounted(){ //元件週期，token可以進入到cookie紀錄裡，然後也可以取出cookie紀錄
-    const token = document.cookie.replace(
-        /(?:(?:^|.*;\s*)hasVueToken\s*\=\s*([^;]*).*$)|^.*$/,
-        "$1",
-      );    
-     axios.defaults.headers.common.Authorization = token;
-     this.checkAdmin()
-     delProduct=new bootstrap.Modal(document.getElementById("delProduct"),{
-      keyboard:false
-     })
-     productModal=new bootstrap.Modal(document.getElementById("productModal"),{
-      keyboard:false
-     })
-}
 
 
 
