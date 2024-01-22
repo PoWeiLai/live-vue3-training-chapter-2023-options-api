@@ -118,6 +118,7 @@ return{
 }
 },
 mounted(){ //元件週期，token可以進入到cookie紀錄裡，然後也可以取出cookie紀錄
+
   const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)hasVueToken\s*\=\s*([^;]*).*$)|^.*$/,
       "$1",
