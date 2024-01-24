@@ -102,7 +102,7 @@
 // }).mount('#app');
 
 import {createApp} from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
-let delProduct=null    //5.let delProduct=[]這樣寫法可以嗎?
+let delProductModal=null    //5.let delProduct=[]這樣寫法可以嗎?
 let productModal=null
 const app=createApp({
 data(){
@@ -125,7 +125,7 @@ mounted(){ //元件週期，token可以進入到cookie紀錄裡，然後也可�
     );    
    axios.defaults.headers.common.Authorization = token;
    this.checkAdmin()
-   delProduct=new bootstrap.Modal(document.getElementById("delProduct"),{
+   delProductModal=new bootstrap.Modal(document.getElementById("delProductModal"),{
     keyboard:false
    })
    productModal=new bootstrap.Modal(document.getElementById("productModal"),{
@@ -148,6 +148,7 @@ window.location="login.html"
  getProduct(){
   axios.get(`${this.url}/api/${this.path}/admin/products`).then((res)=>{
   this.products=res.data.products
+  console.log(res.data.products)
   }).catch((error)=>{console.log(error)})
  },openProduct(item){
     this.tempProduct=item   //產品訂購區等同於指定的訂購
@@ -169,10 +170,10 @@ window.location="login.html"
     console.log(error)
   })
  }
- ,delProduct(){
+ ,delProductModal(){
   axios.delete(`${this.url}/api/${this.path}/admin/product/${this.tempProduct.id}`).then((res)=>{
     console.log(res)
-    delProduct.hide()
+    delProductModal.hide()
     this.getProduct()
   }).catch((error)=>{console.log(error)})
  },
@@ -194,7 +195,7 @@ window.location="login.html"
     
   }else if(isNew=="delete"){
     this.tempProduct={...item}
-    delProduct.show()
+    delProductModal.show()
   }
  },
  createImages(){
